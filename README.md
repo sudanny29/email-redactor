@@ -1,0 +1,2 @@
+# email-redactor
+redact emails
