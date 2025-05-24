@@ -111,29 +111,51 @@ function createEmailCard(id, original, redacted) {
   const card = document.createElement('div');
   card.className = 'email-card';
   card.dataset.id = id;
-  
-  card.innerHTML = `
-    <div class="email-info">
-      <span class="email-label">Original:</span>
-      <span class="email-value">${original}</span>
-      <span class="email-label">Redacted:</span>
-      <span class="email-value redacted-value">${redacted}</span>
-    </div>
-    <div class="email-buttons">
-      <button class="icon-button refresh-btn" title="Scramble the visible characters">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path><path d="M3 21v-5h5"></path></svg>
-      </button>
-      <button class="icon-button copy-btn" title="Copy to clipboard">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>
-      </button>
-      <button class="icon-button delete-btn" title="Remove">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path><line x1="10" x2="10" y1="11" y2="17"></line><line x1="14" x2="14" y1="11" y2="17"></line></svg>
-      </button>
-    </div>
-  `;
-  
+
+  const info = document.createElement('div');
+  info.className = 'email-info';
+
+  const origLabel = document.createElement('span');
+  origLabel.className = 'email-label';
+  origLabel.textContent = 'Original:';
+
+  const origValue = document.createElement('span');
+  origValue.className = 'email-value';
+  origValue.textContent = original;
+
+  const redactedLabel = document.createElement('span');
+  redactedLabel.className = 'email-label';
+  redactedLabel.textContent = 'Redacted:';
+
+  const redactedValue = document.createElement('span');
+  redactedValue.className = 'email-value redacted-value';
+  redactedValue.textContent = redacted;
+
+  info.append(origLabel, origValue, redactedLabel, redactedValue);
+
+  const buttons = document.createElement('div');
+  buttons.className = 'email-buttons';
+
+  const refreshBtn = document.createElement('button');
+  refreshBtn.className = 'icon-button refresh-btn';
+  refreshBtn.title = 'Scramble the visible characters';
+  refreshBtn.textContent = '🔄';
+
+  const copyBtn = document.createElement('button');
+  copyBtn.className = 'icon-button copy-btn';
+  copyBtn.title = 'Copy to clipboard';
+  copyBtn.textContent = '📋';
+
+  const deleteBtn = document.createElement('button');
+  deleteBtn.className = 'icon-button delete-btn';
+  deleteBtn.title = 'Remove';
+  deleteBtn.textContent = '❌';
+
+  buttons.append(refreshBtn, copyBtn, deleteBtn);
+  card.append(info, buttons);
+
   // Copy button event
-  card.querySelector('.copy-btn').addEventListener('click', async () => {
+  copyBtn.addEventListener('click', async () => {
     try {
       await navigator.clipboard.writeText(redacted);
       showToast('Copied to clipboard!');
@@ -141,33 +163,24 @@ function createEmailCard(id, original, redacted) {
       showToast('Failed to copy to clipboard');
     }
   });
-  
+
   // Refresh button event
-  card.querySelector('.refresh-btn').addEventListener('click', () => {
+  refreshBtn.addEventListener('click', () => {
     const newRedacted = redactEmail(original, true);
-    card.querySelector('.redacted-value').textContent = newRedacted;
+    redactedValue.textContent = newRedacted;
     showToast('Email scrambled!');
   });
-  
+
   // Delete button event
-  card.querySelector('.delete-btn').addEventListener('click', () => {
+  deleteBtn.addEventListener('click', () => {
     card.classList.add('removing');
     setTimeout(() => {
       card.remove();
       updateEmptyState();
     }, 300);
   });
-  
-  return card;
-}
 
-// Update empty state visibility
-function updateEmptyState() {
-  if (emailsList.children.length === 0) {
-    emptyState.classList.remove('hidden');
-  } else {
-    emptyState.classList.add('hidden');
-  }
+  return card;
 }
 
 // Handle form submission
