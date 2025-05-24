@@ -1,28 +1,49 @@
-# email-redactor
-redact emails
-```markdown
 # Email Redactor
 
-A modern, minimalist web application that redacts email addresses showing only the domain and three characters. Perfect for sharing contact information while maintaining privacy.
+A modern web application for email privacy that allows users to redact email addresses, transforming sensitive contact information into a more secure display format.
 
 ## Features
 
 - Redact email addresses to show only the domain and first three characters
-- Option to scramble the visible characters for additional privacy
+- Option to scramble which characters are visible for enhanced privacy
 - Copy redacted emails to clipboard with one click
-- Dark mode support
-- Clean and responsive design
+- Dark and light mode support
+- Responsive web design with a minimalist user interface
 
-## How to Use
+## Technology Stack
 
-1. Enter an email address in the input field
-2. Click "Redact" to generate a redacted version
-3. Use the refresh button to scramble which characters are visible
-4. Copy the redacted email to clipboard using the copy button
-5. Remove entries with the delete button
-6. Toggle between light and dark mode using the theme button
+- React with TypeScript
+- Tailwind CSS for styling
+- Shadcn UI components
+- Vite for development and building
 
 ## Privacy
 
-All email redaction happens directly in your browser. No emails are sent to any server or stored outside your browser session.
+All email redaction happens directly in your browser. No emails are sent to any server or stored outside of your browser's memory while using the application.
+
+## Deployment
+
+This application is configured for easy deployment to Vercel:
+
+1. Push this repository to GitHub
+2. Connect your Vercel account to GitHub
+3. Create a new project and select this repository
+4. Deploy with the default settings (Vite framework preset)
+
+## Development
+
+To run this project locally:
+
+```bash
+# Install dependencies
+npm install
+
+# Start the development server
+npm run dev
 ```
+
+The application will be available at http://localhost:5000
+
+## License
+
+MIT
