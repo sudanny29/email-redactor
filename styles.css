@@ -1,4 +1,4 @@
-```css
+css
 :root {
   --background: #f0f5ff;
   --foreground: #111111;
@@ -288,4 +288,3 @@ button:hover {
     justify-content: flex-end;
   }
 }
-```
