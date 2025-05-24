@@ -1,4 +1,3 @@
-```javascript
 // Theme handling
 const themeToggleBtn = document.getElementById('theme-toggle-btn');
 const moonIcon = document.getElementById('moon-icon');
@@ -225,4 +224,4 @@ form.addEventListener('submit', (e) => {
 
 // Initial update of empty state
 updateEmptyState();
-```
+
